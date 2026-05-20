@@ -10,6 +10,7 @@ import Finanzas from './modules/finanzas/Finanzas'
 import Clientes from './modules/clientes/Clientes'
 import Proveedores from './modules/proveedores/Proveedores'
 import Calendario from './modules/calendario/Calendario'
+import Alertas from './modules/alertas/Alertas'
 
 const Placeholder = ({ titulo }) => (
   <div className="p-7">
@@ -40,7 +41,7 @@ function AppRoutes() {
         <Route path="finanzas" element={<Finanzas />} />
         <Route path="clientes" element={<Clientes />} />
         <Route path="proveedores" element={<Proveedores />} />
-        <Route path="alertas" element={<Placeholder titulo="Alertas" />} />
+        <Route path="alertas" element={<Alertas />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
