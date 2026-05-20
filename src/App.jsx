@@ -11,13 +11,7 @@ import Clientes from './modules/clientes/Clientes'
 import Proveedores from './modules/proveedores/Proveedores'
 import Calendario from './modules/calendario/Calendario'
 import Alertas from './modules/alertas/Alertas'
-
-const Placeholder = ({ titulo }) => (
-  <div className="p-7">
-    <h1 className="text-[15px] font-medium text-ink mb-2">{titulo}</h1>
-    <p className="text-sm text-ink-3">Próximamente</p>
-  </div>
-)
+import Settings from './modules/settings/Settings'
 
 function Guard({ children }) {
   const { session, loading } = useAuth()
@@ -42,6 +36,7 @@ function AppRoutes() {
         <Route path="clientes" element={<Clientes />} />
         <Route path="proveedores" element={<Proveedores />} />
         <Route path="alertas" element={<Alertas />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

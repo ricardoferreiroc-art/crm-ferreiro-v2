@@ -3,7 +3,7 @@ import { supabase } from './lib/supabase'
 import { useAuth } from './context/AuthContext'
 import {
   LayoutDashboard, Filter, Camera, Calendar,
-  BarChart2, Users, Building2, Bell, LogOut,
+  BarChart2, Users, Building2, Bell, LogOut, Settings,
 } from 'lucide-react'
 
 const NAV = [
@@ -14,6 +14,7 @@ const NAV = [
   { to: '/finanzas',    label: 'Finanzas',     Icon: BarChart2 },
   { to: '/clientes',    label: 'Clientes',     Icon: Users },
   { to: '/proveedores', label: 'Proveedores',  Icon: Building2 },
+  { to: '/settings',    label: 'Ajustes',      Icon: Settings },
 ]
 
 export default function Shell() {
