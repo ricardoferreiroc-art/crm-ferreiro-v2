@@ -631,10 +631,10 @@ ${seccionesHtml}
                     {!esProv && !isShot && (
                       <div>
                         {/* Timeline de items */}
-                        <div className="relative pl-16">
+                        <div className="relative pl-20">
                           {/* Línea vertical */}
                           {items.length > 0 && (
-                            <div className="absolute left-[34px] top-2 bottom-2 w-px bg-cream-dark"/>
+                            <div className="absolute top-2 bottom-2 w-px bg-cream-dark" style={{left:'54px'}}/>
                           )}
 
                           {(vistaCliente
@@ -645,29 +645,29 @@ ${seccionesHtml}
                             const isExp = expandedItem === item._id
                             return (
                               <div key={item._id} className="relative mb-2 group">
-                                {/* Hora a la izquierda */}
-                                <div className="absolute top-2" style={{left:'-64px', width:'56px'}}>
+                                {/* Hora a la izquierda — bien separada del punto */}
+                                <div className="absolute top-2.5" style={{left:'-78px', width:'48px'}}>
                                   {!vistaCliente ? (
                                     <input
                                       value={item.hora||''}
                                       onChange={e => {
-                                        // Normalizar: reemplazar punto por dos puntos, quitar espacios y letras
                                         let v = e.target.value.replace(/\./g,':').replace(/[^0-9:]/g,'')
                                         updItem(sec.id, item._id, 'hora', v)
                                       }}
-                                      className="w-full text-right text-xs font-mono text-ink-3 bg-transparent border-0 outline-none hover:text-ink focus:text-ink p-0"
+                                      className="w-full text-right text-[11px] font-mono text-ink-2 bg-transparent border-0 outline-none hover:text-ink focus:text-ink p-0 font-medium"
                                       placeholder="09:00"/>
                                   ) : (
-                                    <span className="text-xs font-mono text-ink-3 block text-right">
+                                    <span className="text-[11px] font-mono text-ink-2 font-medium block text-right">
                                       {(item.hora||'—').replace(/\./g,':').replace(/\s*h\s*$/i,'').trim()}
                                     </span>
                                   )}
                                 </div>
 
-                                {/* Punto en la línea */}
-                                <div className={`absolute -left-[7px] top-2.5 w-3.5 h-3.5 rounded-full border-2 border-white z-10 flex-shrink-0
-                                  ${item.badge ? c.dot : 'bg-gray-300'}`}
-                                  style={{left:'-27px'}}
+                                {/* Punto en la línea — a la derecha de la hora, sin taparla */}
+                                <div
+                                  className={`absolute top-3 w-3 h-3 rounded-full border-2 border-white z-10
+                                    ${item.badge ? c.dot : 'bg-gray-300'}`}
+                                  style={{left:'-18px'}}
                                 />
 
                                 {/* Tarjeta */}
