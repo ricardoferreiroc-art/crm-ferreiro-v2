@@ -7,24 +7,28 @@ import Leads from './modules/leads/Leads'
 import Trabajos from './modules/trabajos/Trabajos'
 import TrabajoDetalle from './modules/trabajos/TrabajoDetalle'
 import Timing from './modules/trabajos/Timing'
+import Documentos from './modules/trabajos/Documentos'
 import Finanzas from './modules/finanzas/Finanzas'
 import Clientes from './modules/clientes/Clientes'
 import Proveedores from './modules/proveedores/Proveedores'
 import Calendario from './modules/calendario/Calendario'
 import Alertas from './modules/alertas/Alertas'
 import Settings from './modules/settings/Settings'
+import PortalCliente from './modules/portal/PortalCliente'
 
 function Guard({ children }) {
   const { session, loading } = useAuth()
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-cream"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-cream"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin"/></div>
   return session ? children : <Navigate to="/login" replace />
 }
 
 function AppRoutes() {
   const { session, loading } = useAuth()
-  if (loading) return <div className="min-h-screen flex items-center justify-center bg-cream"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" /></div>
+  if (loading) return <div className="min-h-screen flex items-center justify-center bg-cream"><div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin"/></div>
   return (
     <Routes>
+      {/* Pública — portal del cliente sin autenticación */}
+      <Route path="/portal/:token" element={<PortalCliente />} />
       <Route path="/login" element={session ? <Navigate to="/dashboard" replace /> : <Login />} />
       <Route path="/" element={<Guard><Shell /></Guard>}>
         <Route index element={<Navigate to="/dashboard" replace />} />
@@ -33,6 +37,7 @@ function AppRoutes() {
         <Route path="trabajos" element={<Trabajos />} />
         <Route path="trabajos/:id" element={<TrabajoDetalle />} />
         <Route path="trabajos/:id/timing" element={<Timing />} />
+        <Route path="trabajos/:id/documentos" element={<Documentos />} />
         <Route path="calendario" element={<Calendario />} />
         <Route path="finanzas" element={<Finanzas />} />
         <Route path="clientes" element={<Clientes />} />

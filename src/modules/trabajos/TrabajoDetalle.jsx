@@ -8,6 +8,8 @@ import {
   Euro, Camera, MapPin, Calendar, Users, FileText,
   Package, ChevronDown, ChevronUp, ExternalLink, Clock
 } from 'lucide-react'
+import PortalManager from '../portal/PortalManager'
+import { Link as RouterLink } from 'react-router-dom'
 
 const FASES_WORKFLOW = ['Antes', 'Día B', 'Post']
 
@@ -266,11 +268,13 @@ export default function TrabajoDetalle() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-cream-dark mb-5">
+      <div className="flex border-b border-cream-dark mb-5 gap-0">
         {tab('info', 'Información')}
         {tab('cobros', 'Cobros y gastos')}
         {tab('workflow', `Workflow ${pctWorkflow}%`)}
         {tab('entrega', 'Entrega')}
+        {tab('documentos', 'Documentos')}
+        {tab('portal', 'Portal cliente')}
       </div>
 
       {/* ── TAB: INFORMACIÓN ── */}
@@ -508,6 +512,21 @@ export default function TrabajoDetalle() {
             )
           })}
         </div>
+      )}
+
+      {/* ── TAB: DOCUMENTOS ── */}
+      {seccion === 'documentos' && (
+        <div className="text-center py-6">
+          <p className="text-sm text-ink-2 mb-3">Facturas, recibos y presupuestos de este trabajo</p>
+          <RouterLink to={`/trabajos/${id}/documentos`} className="btn-primary inline-flex">
+            <FileText size={14}/> Abrir módulo de documentos
+          </RouterLink>
+        </div>
+      )}
+
+      {/* ── TAB: PORTAL CLIENTE ── */}
+      {seccion === 'portal' && trabajo && (
+        <PortalManager trabajoId={parseInt(id)} trabajoTitulo={trabajo.titulo} />
       )}
 
       {/* ── TAB: ENTREGA ── */}
