@@ -194,13 +194,20 @@ export default function Timing() {
       const raw = tim.contenido || tim.eventos || []
       if (Array.isArray(raw) && raw.length > 0) {
         // Normalizar desde formato v1 o v2
+        const normHora = (h) => h ? h.replace(/\./g,':').replace(/\s*h\s*$/i,'').trim() : h
         const secsNorm = SECCIONES.map(base => {
           const found = raw.find(s => s.id === base.id)
           return {
             ...base,
+            titulo: found?.titulo || base.titulo,
+            color: found?.color || base.color,
             ubicacion: found?.ubicacion || '',
             contacto_principal: found?.contacto_principal || '',
-            items: (found?.items || []).map(it => ({ ...it, _id: `${Date.now()}-${Math.random()}` })),
+            items: (found?.items || []).map(it => ({
+              ...it,
+              hora: normHora(it.hora),
+              _id: `${Date.now()}-${Math.random()}`,
+            })),
           }
         })
         setSecciones(secsNorm)
@@ -641,11 +648,19 @@ ${seccionesHtml}
                                 {/* Hora a la izquierda */}
                                 <div className="absolute top-2" style={{left:'-64px', width:'56px'}}>
                                   {!vistaCliente ? (
-                                    <input value={item.hora||''} onChange={e=>updItem(sec.id,item._id,'hora',e.target.value)}
+                                    <input
+                                      value={item.hora||''}
+                                      onChange={e => {
+                                        // Normalizar: reemplazar punto por dos puntos, quitar espacios y letras
+                                        let v = e.target.value.replace(/\./g,':').replace(/[^0-9:]/g,'')
+                                        updItem(sec.id, item._id, 'hora', v)
+                                      }}
                                       className="w-full text-right text-xs font-mono text-ink-3 bg-transparent border-0 outline-none hover:text-ink focus:text-ink p-0"
                                       placeholder="09:00"/>
                                   ) : (
-                                    <span className="text-xs font-mono text-ink-3 block text-right">{item.hora||'—'}</span>
+                                    <span className="text-xs font-mono text-ink-3 block text-right">
+                                      {(item.hora||'—').replace(/\./g,':').replace(/\s*h\s*$/i,'').trim()}
+                                    </span>
                                   )}
                                 </div>
 
@@ -769,14 +784,14 @@ ${seccionesHtml}
                                   <Zap size={12}/> Rápido
                                 </button>
                                 {showRapidos===sec.id && (
-                                  <div className="absolute bottom-[calc(100%+6px)] right-0 bg-white border border-brand/15 rounded-xl shadow-2xl py-1.5 min-w-[240px]"
+                                  <div className="absolute bottom-[calc(100%+6px)] left-0 bg-white border border-brand/15 rounded-xl shadow-2xl py-1.5 w-72"
                                     style={{zIndex:999}}>
                                     {rapidos.map((r,i)=>(
                                       <button key={i} onClick={()=>addItem(sec.id,r)}
                                         className="w-full text-left px-3.5 py-2 text-xs hover:bg-brand/[.05] flex items-center gap-2.5">
                                         {r.badge && <span className={`text-[9px] px-1.5 py-0.5 rounded-full border flex-shrink-0 ${getBadge(r.badge).cls}`}>{getBadge(r.badge).label}</span>}
-                                        <span className="text-ink">{r.titulo}</span>
-                                        {r.hora && <span className="text-ink-3 ml-auto font-mono">{r.hora}</span>}
+                                        <span className="text-ink flex-1">{r.titulo}</span>
+                                        {r.hora && <span className="text-ink-3 ml-auto font-mono flex-shrink-0">{r.hora}</span>}
                                       </button>
                                     ))}
                                   </div>
