@@ -6,7 +6,7 @@ import { fmtFecha, fmtEur, esBoda, TIPOS_TRABAJO } from '../../lib/utils'
 import {
   ArrowLeft, Edit2, Save, X, Check, Plus, Trash2,
   Euro, Camera, MapPin, Calendar, Users, FileText,
-  Package, ChevronDown, ChevronUp, ExternalLink
+  Package, ChevronDown, ChevronUp, ExternalLink, Clock
 } from 'lucide-react'
 
 const FASES_WORKFLOW = ['Antes', 'Día B', 'Post']
@@ -197,9 +197,16 @@ export default function TrabajoDetalle() {
               </button>
             </>
           ) : (
-            <button onClick={() => setEditando(true)} className="btn-ghost">
-              <Edit2 size={15} /> Editar
-            </button>
+            <>
+              {esBoda(trabajo.tipo) && (
+                <Link to={`/trabajos/${id}/timing`} className="btn-ghost">
+                  <Clock size={15} /> Timing
+                </Link>
+              )}
+              <button onClick={() => setEditando(true)} className="btn-ghost">
+                <Edit2 size={15} /> Editar
+              </button>
+            </>
           )}
         </div>
       </div>

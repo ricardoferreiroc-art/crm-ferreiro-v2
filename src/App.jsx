@@ -6,6 +6,7 @@ import Dashboard from './modules/dashboard/Dashboard'
 import Leads from './modules/leads/Leads'
 import Trabajos from './modules/trabajos/Trabajos'
 import TrabajoDetalle from './modules/trabajos/TrabajoDetalle'
+import Timing from './modules/trabajos/Timing'
 import Finanzas from './modules/finanzas/Finanzas'
 import Clientes from './modules/clientes/Clientes'
 import Proveedores from './modules/proveedores/Proveedores'
@@ -31,6 +32,7 @@ function AppRoutes() {
         <Route path="leads" element={<Leads />} />
         <Route path="trabajos" element={<Trabajos />} />
         <Route path="trabajos/:id" element={<TrabajoDetalle />} />
+        <Route path="trabajos/:id/timing" element={<Timing />} />
         <Route path="calendario" element={<Calendario />} />
         <Route path="finanzas" element={<Finanzas />} />
         <Route path="clientes" element={<Clientes />} />
