@@ -279,6 +279,126 @@ export default function Timing() {
   const setVN = (k, v) => setInfoGlobal(g => ({ ...g, ves_novia: { ...(g.ves_novia||{}), [k]: v } }))
   const setVNovio = (k, v) => setInfoGlobal(g => ({ ...g, ves_novio: { ...(g.ves_novio||{}), [k]: v } }))
 
+  function generarPDF() {
+    const fechaStr = trabajo?.fecha
+      ? new Date(trabajo.fecha+'T00:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'})
+      : ''
+    const COLORES_PDF = {
+      pink:'#ec4899', blue:'#3b82f6', indigo:'#6366f1',
+      gray:'#6b7280', amber:'#f59e0b', orange:'#f97316',
+      purple:'#a855f7', teal:'#14b8a6', green:'#22c55e',
+    }
+    const seccionesHtml = secciones.map(sec => {
+      const color = COLORES_PDF[sec.color] || '#6b7280'
+      const items = (sec.items || []).filter(it => it.titulo)
+      if (items.length === 0 && !sec.ubicacion && !sec.contacto_principal) return ''
+      const sorted = sec.tipo==='momentos'
+        ? [...items].sort((a,b)=>(a.hora||'99:99').replace('.', ':').localeCompare((b.hora||'99:99').replace('.',':')))
+        : items
+      const rows = sec.tipo==='momentos' ? sorted.map(it => {
+        const b = BADGES.find(x=>x.id===it.badge)
+        const bHtml = b && it.badge ? `<span style="font-size:9px;padding:2px 7px;border-radius:20px;background:#f3f4f6;color:#374151;margin-right:6px">${b.label}</span>` : ''
+        return `<tr>
+          <td style="padding:8px 4px;vertical-align:top;width:52px;font-family:monospace;font-size:12px;color:#9ca3af;border-bottom:1px solid #f3f4f6">${it.hora||''}</td>
+          <td style="padding:8px 12px;vertical-align:top;border-bottom:1px solid #f3f4f6;border-left:2px solid ${color}33">
+            <div>${bHtml}<span style="font-size:12.5px;font-weight:500;color:#111827">${it.titulo}</span></div>
+            ${it.notas?`<p style="font-size:11px;color:#6b7280;margin:4px 0 0">${it.notas}</p>`:''}
+            ${it.contacto?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">📞 ${it.contacto}</p>`:''}
+            ${it.ubicacion?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">📍 ${it.ubicacion}</p>`:''}
+          </td></tr>`
+      }).join('') : sec.tipo==='shotlist' ? sorted.map(it =>
+        `<tr><td colspan="2" style="padding:6px 12px;border-bottom:1px solid #f3f4f6;border-left:2px solid ${color}33">
+          <span style="font-size:12px;color:#111827">☐ ${it.titulo}</span>
+          ${it.notas?`<span style="font-size:11px;color:#9ca3af"> — ${it.notas}</span>`:''}
+        </td></tr>`).join('')
+        : sorted.map(it =>
+        `<tr><td colspan="2" style="padding:8px 12px;border-bottom:1px solid #f3f4f6">
+          <span style="font-size:12.5px;font-weight:500;color:#111827">${it.nombre||''}</span>
+          ${it.tipo?`<span style="color:#6b7280"> · ${it.tipo}</span>`:''}
+          ${it.contacto?`<div style="font-size:11px;color:#6b7280;margin-top:2px">${it.contacto}</div>`:''}
+          ${it.telefono?`<div style="font-size:11px;color:#3b82f6;margin-top:1px">📞 ${it.telefono}</div>`:''}
+          ${it.instagram?`<div style="font-size:11px;color:#6b7280;margin-top:1px">📸 @${it.instagram.replace('@','')}</div>`:''}
+        </td></tr>`).join('')
+      return `<div style="margin-bottom:20px;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;page-break-inside:avoid">
+        <div style="background:${color}18;border-left:4px solid ${color};padding:10px 16px;display:flex;align-items:center;gap:8px">
+          <span style="font-size:13px;font-weight:600;color:${color}">${sec.titulo}</span>
+          ${sec.ubicacion?`<span style="font-size:11px;color:#6b7280;margin-left:auto">📍 ${sec.ubicacion}</span>`:''}
+          ${sec.contacto_principal?`<span style="font-size:11px;color:#6b7280"> · ${sec.contacto_principal}</span>`:''}
+        </div>
+        <table style="width:100%;border-collapse:collapse;background:white">${rows||'<tr><td colspan="2" style="padding:10px 16px;color:#9ca3af;font-size:12px">Sin momentos</td></tr>'}</table>
+      </div>`
+    }).join('')
+    const igFields = [
+      infoGlobal.prep_hora_foto && `📷 Fotógrafo: <strong>${infoGlobal.prep_hora_foto}</strong>`,
+      infoGlobal.prep_hora_video && `🎬 Videógrafo: <strong>${infoGlobal.prep_hora_video}</strong>`,
+      infoGlobal.prep_salida_foto_video && `🚗 Salen: <strong>${infoGlobal.prep_salida_foto_video}</strong>`,
+      infoGlobal.ceremonia_hora && `💒 Ceremonia: <strong>${infoGlobal.ceremonia_hora}</strong>${infoGlobal.ceremonia_duracion?' ('+infoGlobal.ceremonia_duracion+')':''}`,
+      infoGlobal.coctel_hora && `🥂 Cóctel: <strong>${infoGlobal.coctel_hora}</strong>`,
+      infoGlobal.recepcion_hora && `🍽 ${infoGlobal.recepcion_tipo||'Recepción'}: <strong>${infoGlobal.recepcion_hora}</strong>`,
+      infoGlobal.barra_hora && `🎉 Barra: <strong>${infoGlobal.barra_hora}</strong>`,
+      infoGlobal.fin_boda && `🌙 Fin: <strong>${infoGlobal.fin_boda}</strong>`,
+      (infoGlobal.invitados_adultos||infoGlobal.invitados_ninos) && `👥 <strong>${infoGlobal.invitados_adultos||'—'} adultos${infoGlobal.invitados_ninos?' + '+infoGlobal.invitados_ninos+' niños':''}`,
+      infoGlobal.parking && `🅿 ${infoGlobal.parking}`,
+    ].filter(Boolean)
+    const vestuarioHtml = (infoGlobal.ves_novia?.vestido||infoGlobal.ves_novio?.traje) ? `
+      <div style="margin-bottom:20px;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden">
+        <div style="background:#fdf2f8;border-left:4px solid #ec4899;padding:10px 16px">
+          <span style="font-size:13px;font-weight:600;color:#ec4899">Vestuario</span>
+        </div>
+        <div style="padding:12px 16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;background:white">
+          ${infoGlobal.ves_novia?.vestido?`<div>
+            <p style="font-size:10px;color:#9ca3af;margin:0 0 4px;text-transform:uppercase;letter-spacing:.06em">Novia</p>
+            <p style="font-size:12px;color:#374151;margin:2px 0">Vestido: ${infoGlobal.ves_novia.vestido}${infoGlobal.ves_novia.disenador?' (@'+infoGlobal.ves_novia.disenador+')':''}</p>
+            ${infoGlobal.ves_novia.zapatos?`<p style="font-size:12px;color:#374151;margin:2px 0">Zapatos: ${infoGlobal.ves_novia.zapatos}</p>`:''}
+            ${infoGlobal.ves_novia.joyas?`<p style="font-size:12px;color:#374151;margin:2px 0">Joyas: ${infoGlobal.ves_novia.joyas}</p>`:''}
+            ${infoGlobal.ves_novia.ramo?`<p style="font-size:12px;color:#374151;margin:2px 0">Ramo: ${infoGlobal.ves_novia.ramo}</p>`:''}
+          </div>`:''}
+          ${infoGlobal.ves_novio?.traje?`<div>
+            <p style="font-size:10px;color:#9ca3af;margin:0 0 4px;text-transform:uppercase;letter-spacing:.06em">Novio</p>
+            <p style="font-size:12px;color:#374151;margin:2px 0">Traje: ${infoGlobal.ves_novio.traje}${infoGlobal.ves_novio.disenador?' (@'+infoGlobal.ves_novio.disenador+')':''}</p>
+          </div>`:''}
+        </div>
+      </div>` : ''
+    const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+<title>Timing · ${trabajo?.titulo||''}</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;color:#111827;background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.page{max-width:800px;margin:0 auto;padding:40px 44px}
+.no-print{position:fixed;bottom:20px;right:20px}
+@media print{.no-print{display:none}@page{margin:1.5cm}.page{padding:20px 28px}}
+</style></head><body>
+<div class="page">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;padding-bottom:18px;border-bottom:2px solid #000499">
+  <div>
+    <p style="font-size:20px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:#000499">FERREIRO</p>
+    <p style="font-size:10px;font-style:italic;color:#9ca3af;letter-spacing:.04em;font-family:Georgia,serif">capturing moments</p>
+  </div>
+  <div style="text-align:right">
+    <p style="font-size:17px;font-weight:500;color:#111827">${trabajo?.titulo||''}</p>
+    <p style="font-size:12px;color:#6b7280;margin-top:3px;text-transform:capitalize">${fechaStr}</p>
+    ${trabajo?.lugar?`<p style="font-size:12px;color:#9ca3af;margin-top:2px">📍 ${trabajo.lugar}</p>`:''}
+  </div>
+</div>
+${igFields.length>0?`<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px;padding:12px 14px;background:#f8f9ff;border-radius:10px;border:1px solid #e0e7ff">
+  ${igFields.map(f=>`<span style="font-size:11px;color:#374151;padding:3px 10px;background:white;border-radius:20px;border:1px solid #e5e7eb">${f}</span>`).join('')}
+</div>`:''}
+${vestuarioHtml}
+${seccionesHtml}
+<div style="margin-top:28px;padding-top:14px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:10px;color:#9ca3af">
+  <span>Ricardo Ferreiro Photography · +34 606 110 337 · ricardoferreiro.com</span>
+  <span>${new Date().toLocaleDateString('es-ES')}</span>
+</div>
+</div>
+<div class="no-print">
+  <button onclick="window.print()" style="background:#000499;color:white;border:none;padding:10px 20px;border-radius:8px;font-size:13px;cursor:pointer;box-shadow:0 4px 12px rgba(0,4,153,.3)">🖨 Guardar como PDF</button>
+</div>
+</body></html>`
+    const win = window.open('', '_blank', 'width=900,height=800')
+    if (win) { win.document.write(html); win.document.close() }
+  }
+
   async function guardar() {
     setSaving(true)
     const payload = {
@@ -335,6 +455,9 @@ export default function Timing() {
             <button onClick={() => setVistaCliente(!vistaCliente)}
               className={`btn-ghost text-xs gap-1.5 ${vistaCliente?'text-brand bg-brand/[.06]':''}`}>
               {vistaCliente ? <><EyeOff size={13}/> Editar</> : <><Eye size={13}/> Vista cliente</>}
+            </button>
+            <button onClick={generarPDF} className="btn-ghost text-xs gap-1.5">
+              <Download size={13}/> PDF
             </button>
             <button onClick={guardar} disabled={saving}
               className={`btn-primary text-sm ${saved?'bg-emerald-600 border-emerald-600':''}`}>
