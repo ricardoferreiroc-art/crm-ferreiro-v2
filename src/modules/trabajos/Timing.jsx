@@ -310,7 +310,7 @@ export default function Timing() {
   if (loading) return <div className="flex items-center justify-center h-64 text-sm text-ink-3">Cargando timing…</div>
 
   return (
-    <div className="flex h-[calc(100vh-54px)] overflow-hidden bg-cream">
+    <div className="flex h-[calc(100vh-54px)] bg-cream" style={{overflow:'visible'}}>
 
       {/* ══════════ PANEL IZQUIERDO ══════════ */}
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -425,23 +425,49 @@ export default function Timing() {
               <div key={sec.id} className={`border-b border-cream-dark ${isOpen ? 'bg-white' : ''}`}>
 
                 {/* Header sección */}
-                <button
-                  onClick={() => setOpenSec(isOpen ? null : sec.id)}
-                  className={`w-full flex items-center gap-3 px-5 py-3.5 text-left transition-colors
-                    ${isOpen ? `${c.bg} border-b ${c.border}` : 'hover:bg-cream/60'}`}
-                >
-                  <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${c.dot}`}/>
-                  <span className={`text-[13.5px] font-medium flex-1 ${isOpen ? c.head : 'text-ink'}`}>
-                    {sec.titulo}
-                  </span>
-                  {sec.ubicacion && (
-                    <span className="flex items-center gap-1 text-[10px] text-ink-3 mr-2">
-                      <MapPin size={9}/>{sec.ubicacion.split(',')[0]}
-                    </span>
+                <div className={`flex items-center gap-0 border-b-0 ${isOpen ? `${c.bg} border-b ${c.border}` : 'hover:bg-cream/60'} group/sec`}>
+                  <button
+                    onClick={() => setOpenSec(isOpen ? null : sec.id)}
+                    className="flex items-center gap-3 px-5 py-3.5 text-left flex-1 min-w-0"
+                  >
+                    <div className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${c.dot}`}/>
+                    {/* Título editable al hacer doble clic */}
+                    {isOpen && !vistaCliente ? (
+                      <input
+                        value={sec.titulo}
+                        onChange={e => updSec(sec.id, 'titulo', e.target.value)}
+                        onClick={e => e.stopPropagation()}
+                        className={`text-[13.5px] font-medium flex-1 min-w-0 bg-transparent border-0 outline-none ${c.head}`}
+                      />
+                    ) : (
+                      <span className={`text-[13.5px] font-medium flex-1 truncate ${isOpen ? c.head : 'text-ink'}`}>
+                        {sec.titulo}
+                      </span>
+                    )}
+                    {sec.ubicacion && (
+                      <span className="flex items-center gap-1 text-[10px] text-ink-3 mr-1 flex-shrink-0">
+                        <MapPin size={9}/>{sec.ubicacion.split(',')[0]}
+                      </span>
+                    )}
+                    <span className="text-[10px] text-ink-3 flex-shrink-0">{items.length}</span>
+                    {isOpen ? <ChevronUp size={14} className="text-ink-3 flex-shrink-0 ml-1"/> : <ChevronDown size={14} className="text-ink-3 flex-shrink-0 ml-1"/>}
+                  </button>
+                  {/* Botón eliminar sección */}
+                  {!vistaCliente && (
+                    <button
+                      onClick={() => {
+                        if (window.confirm(`¿Eliminar la sección "${sec.titulo}"?`)) {
+                          setSecciones(ss => ss.filter(s => s.id !== sec.id))
+                          if (openSec === sec.id) setOpenSec(null)
+                        }
+                      }}
+                      className="px-3 py-3.5 text-ink-3 hover:text-red-500 opacity-0 group-hover/sec:opacity-100 transition-all flex-shrink-0"
+                      title="Eliminar sección"
+                    >
+                      <Trash2 size={13}/>
+                    </button>
                   )}
-                  <span className="text-[10px] text-ink-3">{items.length}</span>
-                  {isOpen ? <ChevronUp size={14} className="text-ink-3 flex-shrink-0"/> : <ChevronDown size={14} className="text-ink-3 flex-shrink-0"/>}
-                </button>
+                </div>
 
                 {isOpen && (
                   <div className="px-5 py-4">
@@ -490,13 +516,13 @@ export default function Timing() {
                             return (
                               <div key={item._id} className="relative mb-2 group">
                                 {/* Hora a la izquierda */}
-                                <div className="absolute -left-16 top-2 w-[52px] text-right">
+                                <div className="absolute top-2" style={{left:'-64px', width:'56px'}}>
                                   {!vistaCliente ? (
                                     <input value={item.hora||''} onChange={e=>updItem(sec.id,item._id,'hora',e.target.value)}
                                       className="w-full text-right text-xs font-mono text-ink-3 bg-transparent border-0 outline-none hover:text-ink focus:text-ink p-0"
-                                      placeholder="HH:MM"/>
+                                      placeholder="09:00"/>
                                   ) : (
-                                    <span className="text-xs font-mono text-ink-3">{item.hora||'—'}</span>
+                                    <span className="text-xs font-mono text-ink-3 block text-right">{item.hora||'—'}</span>
                                   )}
                                 </div>
 
@@ -613,12 +639,15 @@ export default function Timing() {
                             </button>
                             {rapidos.length > 0 && (
                               <div className="relative">
-                                <button onClick={()=>setShowRapidos(showRapidos===sec.id?null:sec.id)}
-                                  className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-lg border border-dashed border-gray-200 hover:border-brand/30 text-ink-3 hover:text-brand transition-all">
+                                <button
+                                  id={`btn-rapido-${sec.id}`}
+                                  onClick={()=>setShowRapidos(showRapidos===sec.id?null:sec.id)}
+                                  className="flex items-center gap-1.5 px-3 py-2 text-xs rounded-lg border border-dashed border-gray-200 hover:border-brand/30 text-ink-3 hover:text-brand transition-all whitespace-nowrap">
                                   <Zap size={12}/> Rápido
                                 </button>
                                 {showRapidos===sec.id && (
-                                  <div className="absolute bottom-full mb-1 left-0 bg-white border border-brand/15 rounded-xl shadow-xl z-20 w-56 py-1.5">
+                                  <div className="absolute bottom-[calc(100%+6px)] right-0 bg-white border border-brand/15 rounded-xl shadow-2xl py-1.5 min-w-[240px]"
+                                    style={{zIndex:999}}>
                                     {rapidos.map((r,i)=>(
                                       <button key={i} onClick={()=>addItem(sec.id,r)}
                                         className="w-full text-left px-3.5 py-2 text-xs hover:bg-brand/[.05] flex items-center gap-2.5">
@@ -747,7 +776,7 @@ export default function Timing() {
       </div>
 
       {/* ══════════ PANEL DERECHO: TIMELINE ══════════ */}
-      <div className="w-60 border-l border-brand/[.08] flex flex-col bg-white overflow-hidden flex-shrink-0">
+      <div className="w-1/3 border-l border-brand/[.08] flex flex-col bg-white overflow-hidden flex-shrink-0">
         <div className="px-4 py-3 border-b border-cream-dark">
           <p className="text-[11px] font-medium text-ink-2">Timeline del día</p>
           {trabajo?.fecha && (
