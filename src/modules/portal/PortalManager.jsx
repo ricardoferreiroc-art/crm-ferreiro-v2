@@ -118,7 +118,7 @@ export default function PortalManager({ trabajoId, trabajoTitulo }) {
           </div>
 
           {/* Estadísticas */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="bg-cream rounded-xl p-3 text-center">
               <div className="flex items-center justify-center gap-1.5 text-ink-3 mb-1">
                 <Eye size={13}/><span className="text-xs">Visitas</span>

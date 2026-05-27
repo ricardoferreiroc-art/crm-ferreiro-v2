@@ -60,3 +60,8 @@
   .badge-warn    { @apply text-xs px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-700; }
   .badge-danger  { @apply text-xs px-2.5 py-0.5 rounded-full bg-red-100 text-red-700; }
 }
+
+@layer utilities {
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+}

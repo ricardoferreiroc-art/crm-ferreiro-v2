@@ -98,10 +98,10 @@ export default function Settings() {
   )
 
   return (
-    <div className="flex h-[calc(100vh-54px)]">
+    <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-54px)]">
 
       {/* Sidebar de secciones */}
-      <div className="w-52 border-r border-brand/[.08] p-4">
+      <div className="w-full md:w-52 border-b md:border-b-0 md:border-r border-brand/[.08] p-4">
         <p className="text-[10px] font-medium text-ink-3 uppercase tracking-wide mb-3 px-2">Ajustes</p>
         <nav className="space-y-1">
           {SECCIONES.map(({ id, label, Icon }) => (
@@ -121,7 +121,7 @@ export default function Settings() {
       </div>
 
       {/* Contenido */}
-      <div className="flex-1 overflow-auto p-8">
+      <div className="flex-1 overflow-auto p-4 md:p-8">
         <div className="max-w-lg">
 
           {/* ── NEGOCIO ── */}

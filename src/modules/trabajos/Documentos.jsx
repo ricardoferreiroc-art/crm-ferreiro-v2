@@ -259,7 +259,7 @@ export default function Documentos() {
   if (loading) return <div className="flex items-center justify-center h-64 text-sm text-ink-3">Cargando…</div>
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
+    <div className="p-4 md:p-6 md:max-w-4xl md:mx-auto">
       <div className="flex items-center gap-3 mb-6">
         <Link to={`/trabajos/${id}`} className="text-ink-3 hover:text-ink"><ArrowLeft size={16}/></Link>
         <div>
@@ -339,7 +339,7 @@ export default function Documentos() {
           {/* Datos cliente */}
           <div className="card p-5">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-4">Datos del cliente</p>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div><label className="label">Nombre / Razón social</label>
                 <input value={form.cliente_nombre||''} onChange={e=>setForm(f=>({...f,cliente_nombre:e.target.value}))} className="input text-sm"/></div>
               <div><label className="label">NIF / DNI</label>
@@ -358,7 +358,7 @@ export default function Documentos() {
           {/* Líneas */}
           <div className="card overflow-hidden">
             <div className="px-5 py-3 border-b border-cream-dark bg-cream">
-              <div className="grid grid-cols-[1fr_60px_100px_60px_60px_90px_30px] gap-2 text-[10px] font-medium text-ink-3 uppercase tracking-wide">
+              <div className="grid hidden md:grid-cols-[1fr_60px_100px_60px_60px_90px_30px] gap-2 text-[10px] font-medium text-ink-3 uppercase tracking-wide">
                 <span>Concepto</span><span className="text-right">Uds.</span><span className="text-right">Precio unit.</span>
                 <span className="text-right">IVA%</span><span className="text-right">IRPF%</span><span className="text-right">Importe</span><span/>
               </div>
@@ -367,7 +367,7 @@ export default function Documentos() {
               const base = l.cantidad * l.precio_unitario
               return (
                 <div key={l.tempId} className="px-5 py-3 border-b border-cream-dark last:border-0">
-                  <div className="grid grid-cols-[1fr_60px_100px_60px_60px_90px_30px] gap-2 items-center">
+                  <div className="grid hidden md:grid-cols-[1fr_60px_100px_60px_60px_90px_30px] gap-2 items-center">
                     <input value={l.concepto} onChange={e=>updateLinea(l.tempId,'concepto',e.target.value)} className="input text-sm py-1"/>
                     <input type="number" value={l.cantidad} onChange={e=>updateLinea(l.tempId,'cantidad',e.target.value)} className="input text-sm py-1 text-right"/>
                     <input type="number" value={l.precio_unitario} onChange={e=>updateLinea(l.tempId,'precio_unitario',e.target.value)} className="input text-sm py-1 text-right"/>

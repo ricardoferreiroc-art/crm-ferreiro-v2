@@ -112,10 +112,10 @@ export default function Calendario() {
   const esMesActual = (d) => d.getMonth() === mes
 
   return (
-    <div className="flex h-[calc(100vh-54px)]">
+    <div className="flex flex-col md:flex-row h-auto md:h-[calc(100vh-54px)]">
 
       {/* CALENDARIO */}
-      <div className="flex-1 flex flex-col p-5">
+      <div className="flex-1 flex flex-col p-4 md:p-5">
 
         {/* Cabecera */}
         <div className="flex items-center justify-between mb-4">
@@ -144,7 +144,7 @@ export default function Calendario() {
         </div>
 
         {/* Días de la semana */}
-        <div className="grid grid-cols-7 mb-1">
+        <div className="grid grid-cols-7 mb-0.5">
           {DIAS_SEMANA.map(d => (
             <div key={d} className="text-center text-[11px] font-medium text-ink-3 py-1">{d}</div>
           ))}
@@ -161,18 +161,18 @@ export default function Calendario() {
                   <button
                     key={di}
                     onClick={() => setDiaSeleccionado(seleccionado ? null : dia)}
-                    className={`bg-white p-1.5 text-left min-h-[80px] transition-colors hover:bg-brand/[.03]
+                    className={`bg-white p-1 md:p-1.5 text-left min-h-[52px] md:min-h-[80px] transition-colors hover:bg-brand/[.03]
                       ${!esMesActual(dia) ? 'opacity-40' : ''}
                       ${seleccionado ? 'bg-brand/[.05]' : ''}`}
                   >
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs mb-1 mx-auto
+                    <div className={`w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-[10px] md:text-xs mb-0.5 md:mb-1 mx-auto
                       ${esHoy(dia) ? 'bg-brand text-white font-medium' : 'text-ink'}`}>
                       {dia.getDate()}
                     </div>
                     <div className="space-y-0.5">
                       {evs.slice(0,3).map((e, i) => (
                         <div key={i}
-                          className={`text-[9px] px-1.5 py-0.5 rounded truncate border leading-tight
+                          className={`text-[8px] md:text-[9px] px-1 md:px-1.5 py-0.5 rounded truncate border leading-tight
                             ${COLOR_TIPO[e.tipo] || 'bg-gray-100 border-gray-300 text-gray-600'}`}>
                           {e.titulo}
                         </div>
@@ -190,7 +190,7 @@ export default function Calendario() {
       </div>
 
       {/* PANEL LATERAL — eventos del día seleccionado */}
-      <div className="w-72 border-l border-brand/[.08] flex flex-col">
+      <div className="w-full md:w-72 border-t md:border-t-0 md:border-l border-brand/[.08] flex flex-col max-h-80 md:max-h-none">
         {diaSeleccionado ? (
           <>
             <div className="px-5 py-4 border-b border-cream-dark">

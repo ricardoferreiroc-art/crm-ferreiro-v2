@@ -150,7 +150,7 @@ export default function Alertas() {
   }
 
   return (
-    <div className="p-7 max-w-3xl mx-auto">
+    <div className="p-4 md:p-7 md:max-w-3xl md:mx-auto">
 
       {/* Cabecera */}
       <div className="flex items-center justify-between mb-6">
@@ -168,7 +168,7 @@ export default function Alertas() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         {[
           { l: 'Pendientes', v: pendientes, color: 'text-ink' },
           { l: 'Críticas', v: criticas, color: 'text-red-600' },

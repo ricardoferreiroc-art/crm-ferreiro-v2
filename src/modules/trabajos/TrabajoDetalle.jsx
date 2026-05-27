@@ -170,7 +170,7 @@ export default function TrabajoDetalle() {
   )
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-4 md:p-6">
 
       {/* Cabecera */}
       <div className="flex items-start justify-between mb-6">
@@ -243,7 +243,7 @@ export default function TrabajoDetalle() {
       </div>
 
       {/* KPIs rápidos */}
-      <div className="grid grid-cols-4 gap-3 mb-5">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-5">
         <div className="card p-3">
           <p className="text-[10px] text-ink-3 mb-1">Precio total</p>
           <p className="font-serif text-xl text-brand">{fmtEur(trabajo.precio_total)}</p>
@@ -279,7 +279,7 @@ export default function TrabajoDetalle() {
 
       {/* ── TAB: INFORMACIÓN ── */}
       {seccion === 'info' && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5 space-y-4">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-3">Datos del evento</p>
             <Field label="Tipo" edit={editando}>
@@ -384,7 +384,7 @@ export default function TrabajoDetalle() {
 
       {/* ── TAB: COBROS Y GASTOS ── */}
       {seccion === 'cobros' && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-4">Ingresos</p>
             <div className="space-y-3">
@@ -531,7 +531,7 @@ export default function TrabajoDetalle() {
 
       {/* ── TAB: ENTREGA ── */}
       {seccion === 'entrega' && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5 space-y-4">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-3">Estado de entrega</p>
             <div className="flex flex-col gap-2">

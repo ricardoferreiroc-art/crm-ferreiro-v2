@@ -121,7 +121,7 @@ export default function Finanzas() {
   if (loading) return <div className="flex items-center justify-center h-64 text-ink-3 text-sm">Cargando…</div>
 
   return (
-    <div className="p-7">
+    <div className="p-4 md:p-7">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
           <h1 className="text-[15px] font-medium text-ink">Finanzas</h1>
@@ -132,7 +132,7 @@ export default function Finanzas() {
       </div>
 
       {/* KPIs principales */}
-      <div className="grid grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
         {[
           { l: 'Facturado', v: fmtEur(ingresosTotales), hi: true },
           { l: 'Cobrado', v: fmtEur(cobradoTotal) },
@@ -157,7 +157,7 @@ export default function Finanzas() {
 
       {/* ── RESUMEN ── */}
       {tab === 'resumen' && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-4">Ingresos por tipo</p>
             <div className="space-y-3">
@@ -201,7 +201,7 @@ export default function Finanzas() {
 
       {/* ── TRIMESTRAL ── */}
       {tab === 'trimestral' && (
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {porTrimestre.map(({ q, ing, cob, gastos: g, benef }) => (
             <div key={q} className="card p-4">
               <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-3">{TRIMESTRES[q-1]}</p>
@@ -220,7 +220,7 @@ export default function Finanzas() {
 
       {/* ── FISCAL ── */}
       {tab === 'fiscal' && (
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="card p-5">
             <p className="text-xs font-medium text-ink-2 uppercase tracking-wide mb-4">IVA (21%)</p>
             <div className="space-y-2.5">

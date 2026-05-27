@@ -71,9 +71,9 @@ export default function Proveedores() {
   )
 
   return (
-    <div className="flex h-[calc(100vh-54px)]">
+    <div className="flex h-[calc(100vh-54px-56px)] md:h-[calc(100vh-54px)] overflow-hidden">
       {/* Lista */}
-      <div className="w-80 border-r border-brand/[.08] flex flex-col">
+      <div className="w-full md:w-80 border-r border-brand/[.08] flex flex-col flex-shrink-0 md:flex-shrink-0">
         <div className="p-4 border-b border-cream-dark">
           <div className="flex items-center gap-2 mb-3">
             <h1 className="text-[14px] font-medium text-ink flex-1">Proveedores</h1>
@@ -89,7 +89,7 @@ export default function Proveedores() {
             {CATEGORIAS.map(c=><option key={c}>{c}</option>)}
           </select>
         </div>
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto bg-white">
           {loading ? <p className="text-sm text-ink-3 p-4 text-center">Cargando…</p>
             : filtrados.length === 0 ? <p className="text-sm text-ink-3 p-4 text-center">Sin resultados</p>
             : filtrados.map(p => (
@@ -113,13 +113,13 @@ export default function Proveedores() {
       </div>
 
       {/* Detalle */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto bg-white">
         {!selected ? (
           <div className="flex items-center justify-center h-full text-sm text-ink-3">
             Selecciona un proveedor
           </div>
         ) : (
-          <div className="p-6 max-w-2xl">
+          <div className="p-4 md:p-6 max-w-2xl">
             <div className="flex items-start justify-between mb-5">
               <div>
                 <h2 className="text-lg font-medium text-ink">{selected.empresa}</h2>
@@ -184,8 +184,8 @@ export default function Proveedores() {
 
       {/* Modal nuevo */}
       {modal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+        <div className="fixed inset-0 bg-black/40 flex items-end sm:items-center justify-center z-50 p-0 sm:p-4">
+          <div className="bg-white rounded-t-2xl sm:rounded-2xl w-full sm:max-w-md shadow-2xl max-h-[90vh] overflow-auto">
             <div className="flex items-center justify-between px-6 py-4 border-b border-cream-dark">
               <h2 className="font-medium text-ink">Nuevo proveedor</h2>
               <button onClick={() => setModal(false)} className="text-ink-3 hover:text-ink"><X size={18} /></button>

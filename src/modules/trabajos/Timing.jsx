@@ -437,7 +437,7 @@ ${seccionesHtml}
   if (loading) return <div className="flex items-center justify-center h-64 text-sm text-ink-3">Cargando timing…</div>
 
   return (
-    <div className="flex h-[calc(100vh-54px)] bg-cream" style={{overflow:'visible'}}>
+    <div className="flex flex-col md:flex-row bg-cream" style={{overflow:"visible",minHeight:"calc(100vh - 110px)"}}>
 
       {/* ══════════ PANEL IZQUIERDO ══════════ */}
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -482,7 +482,7 @@ ${seccionesHtml}
               <ChevronDown size={12} className="text-ink-3 ml-auto group-open:rotate-180 transition-transform"/>
             </summary>
             <div className="px-5 pb-5 pt-1">
-              <div className="grid grid-cols-6 gap-2.5 mb-3">
+              <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-3">
                 {[
                   { k:'prep_hora_foto',           l:'📷 Llega fotógrafo',   t:'time' },
                   { k:'prep_hora_video',          l:'🎬 Llega videógrafo',  t:'time' },
@@ -914,7 +914,7 @@ ${seccionesHtml}
       </div>
 
       {/* ══════════ PANEL DERECHO: TIMELINE ══════════ */}
-      <div className="w-1/3 border-l border-brand/[.08] flex flex-col bg-white overflow-hidden flex-shrink-0">
+      <div className="w-full md:w-1/3 border-t md:border-t-0 md:border-l border-brand/[.08] flex flex-col bg-white overflow-hidden flex-shrink-0 md:max-h-none max-h-60">
         <div className="px-4 py-3 border-b border-cream-dark">
           <p className="text-[11px] font-medium text-ink-2">Timeline del día</p>
           {trabajo?.fecha && (
