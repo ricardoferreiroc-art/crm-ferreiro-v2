@@ -5,8 +5,9 @@ import { useAuth } from '../../context/AuthContext'
 import {
   ArrowLeft, Plus, Trash2, Save, Check, ChevronDown, ChevronUp,
   MapPin, Phone, Link2, X, Eye, EyeOff, Zap, Clock, Star,
-  AlignLeft, Users, Palette, BookOpen, Download, MoreHorizontal,
-  GripVertical, AlertCircle, ChevronRight
+  AlignLeft, Users, Download, AlertCircle, ChevronRight,
+  Camera, Video, UserCheck, Briefcase, Music, Heart, Car,
+  Church, Lock, Shirt, List
 } from 'lucide-react'
 
 // ── SECCIONES BASE ────────────────────────────────────────────
@@ -37,16 +38,16 @@ const C = {
 
 // ── BADGES DISPONIBLES ────────────────────────────────────────
 const BADGE_LIST = [
-  { id:'yo',        label:'📷 Yo',          cls:'bg-brand/15 text-brand border-brand/30' },
-  { id:'video',     label:'🎬 Vídeo',        cls:'bg-purple-100 text-purple-700 border-purple-200' },
-  { id:'clave',     label:'⭐ Clave',        cls:'bg-amber-100 text-amber-700 border-amber-200' },
-  { id:'2nd',       label:'📸 2º foto',      cls:'bg-teal-100 text-teal-700 border-teal-200' },
-  { id:'wp',        label:'💼 W.Planner',   cls:'bg-pink-100 text-pink-700 border-pink-200' },
-  { id:'dj',        label:'🎵 DJ/Música',   cls:'bg-violet-100 text-violet-700 border-violet-200' },
-  { id:'familia',   label:'👨‍👩‍👧 Familia',      cls:'bg-green-100 text-green-700 border-green-200' },
-  { id:'pareja',    label:'💑 Pareja',       cls:'bg-rose-100 text-rose-700 border-rose-200' },
-  { id:'traslado',  label:'🚗 Traslado',    cls:'bg-slate-100 text-slate-600 border-slate-200' },
-  { id:'ceremonia', label:'💒 Ceremonia',   cls:'bg-indigo-100 text-indigo-700 border-indigo-200' },
+  { id:'yo',        label:'Yo',         icon: Camera,    cls:'bg-brand/10 text-brand border-brand/25' },
+  { id:'video',     label:'Vídeo',      icon: Video,     cls:'bg-purple-100 text-purple-700 border-purple-200' },
+  { id:'clave',     label:'Clave',      icon: Star,      cls:'bg-amber-100 text-amber-700 border-amber-200' },
+  { id:'2nd',       label:'2º foto',    icon: Camera,    cls:'bg-teal-100 text-teal-700 border-teal-200' },
+  { id:'wp',        label:'W.Planner',  icon: Briefcase, cls:'bg-pink-100 text-pink-700 border-pink-200' },
+  { id:'dj',        label:'DJ',         icon: Music,     cls:'bg-violet-100 text-violet-700 border-violet-200' },
+  { id:'familia',   label:'Familia',    icon: Users,     cls:'bg-green-100 text-green-700 border-green-200' },
+  { id:'pareja',    label:'Pareja',     icon: Heart,     cls:'bg-rose-100 text-rose-700 border-rose-200' },
+  { id:'traslado',  label:'Traslado',   icon: Car,       cls:'bg-slate-100 text-slate-600 border-slate-200' },
+  { id:'ceremonia', label:'Ceremonia',  icon: Church,    cls:'bg-indigo-100 text-indigo-700 border-indigo-200' },
 ]
 const getBadge = (id) => BADGE_LIST.find(b => b.id === id)
 
@@ -244,30 +245,30 @@ export default function Timing() {
             ${it.es_nota?`<p style="font-size:12px;color:#6b7280;font-style:italic">${it.titulo}</p>`:
             `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:3px">${badgesHtml}<span style="font-size:12.5px;font-weight:${(it.badges||[]).includes('clave')?'600':'400'};color:${(it.badges||[]).includes('clave')?'#1d4ed8':'#111827'}">${it.titulo}</span></div>`}
             ${it.notas&&!vistaCliente?`<p style="font-size:11px;color:#6b7280;margin:3px 0 0">${it.notas}</p>`:''}
-            ${it.contacto?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">📞 ${it.contacto}</p>`:''}
-            ${it.ubicacion?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">📍 ${it.ubicacion}</p>`:''}
+            ${it.contacto?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">${it.contacto}</p>`:''}
+            ${it.ubicacion?`<p style="font-size:11px;color:#9ca3af;margin:2px 0 0">${it.ubicacion}</p>`:''}
           </td></tr>`
       }).join('') : sec.tipo==='shotlist' ? sorted.map(it=>`<tr><td colspan="2" style="padding:6px 12px;border-bottom:1px solid #f3f4f6;border-left:2px solid ${color}40"><span style="font-size:12px">☐ ${it.titulo}</span></td></tr>`).join('')
-        : sorted.map(it=>`<tr><td colspan="2" style="padding:8px 12px;border-bottom:1px solid #f3f4f6"><strong style="font-size:12.5px">${it.nombre||''}</strong> <span style="color:#6b7280">${it.tipo?'· '+it.tipo:''}</span>${it.telefono?`<br><span style="font-size:11px;color:#3b82f6">📞 ${it.telefono}</span>`:''}</td></tr>`).join('')
+        : sorted.map(it=>`<tr><td colspan="2" style="padding:8px 12px;border-bottom:1px solid #f3f4f6"><strong style="font-size:12.5px">${it.nombre||''}</strong> <span style="color:#6b7280">${it.tipo?'· '+it.tipo:''}</span>${it.telefono?`<br><span style="font-size:11px;color:#3b82f6">${it.telefono}</span>`:''}</td></tr>`).join('')
       const hInfo = sec.hora_inicio||sec.hora_fin ? `<span style="font-size:11px;color:${color};margin-left:8px">${sec.hora_inicio||''}${sec.hora_fin?' – '+sec.hora_fin:''}</span>` : ''
       return `<div style="margin-bottom:18px;border-radius:10px;overflow:hidden;border:1px solid #e5e7eb;page-break-inside:avoid">
         <div style="background:${color}18;border-left:4px solid ${color};padding:9px 14px;display:flex;align-items:center;gap:8px">
           <span style="font-size:13px;font-weight:600;color:${color}">${sec.titulo}</span>${hInfo}
           ${sec.ubicacion?`<span style="font-size:11px;color:#6b7280;margin-left:auto">📍 ${sec.ubicacion.split(',')[0]}</span>`:''}
         </div>
-        ${sec.traslado_min?`<div style="background:#fefce8;border-left:4px solid #eab308;padding:5px 14px;font-size:11px;color:#a16207">🚗 Traslado: ${sec.traslado_min} min</div>`:''}
+        ${sec.traslado_min?`<div style="background:#fefce8;border-left:4px solid #eab308;padding:5px 14px;font-size:11px;color:#a16207"> Traslado: ${sec.traslado_min} min</div>`:''}
         <table style="width:100%;border-collapse:collapse;background:white">${rows||'<tr><td colspan="2" style="padding:10px 14px;color:#9ca3af;font-size:12px">Sin eventos</td></tr>'}</table>
       </div>`
     }).join('')
     const igArr = [
-      infoGlobal.prep_hora_foto&&`📷 Fotógrafo: <strong>${infoGlobal.prep_hora_foto}</strong>`,
-      infoGlobal.prep_hora_video&&`🎬 Videógrafo: <strong>${infoGlobal.prep_hora_video}</strong>`,
-      infoGlobal.ceremonia_hora&&`💒 Ceremonia: <strong>${infoGlobal.ceremonia_hora}</strong>${infoGlobal.ceremonia_duracion?' ('+infoGlobal.ceremonia_duracion+')':''}`,
-      infoGlobal.coctel_hora&&`🥂 Cóctel: <strong>${infoGlobal.coctel_hora}</strong>`,
-      infoGlobal.recepcion_hora&&`🍽 ${infoGlobal.recepcion_tipo||'Recepción'}: <strong>${infoGlobal.recepcion_hora}</strong>`,
-      infoGlobal.barra_hora&&`🎉 Barra: <strong>${infoGlobal.barra_hora}</strong>`,
-      infoGlobal.fin_boda&&`🌙 Fin: <strong>${infoGlobal.fin_boda}</strong>`,
-      (infoGlobal.invitados_adultos||infoGlobal.invitados_ninos)&&`👥 <strong>${infoGlobal.invitados_adultos||'—'} adultos${infoGlobal.invitados_ninos?' + '+infoGlobal.invitados_ninos+' niños':''}`,
+      infoGlobal.prep_hora_foto&&`Fotógrafo: <strong>${infoGlobal.prep_hora_foto}</strong>`,
+      infoGlobal.prep_hora_video&&`Videógrafo: <strong>${infoGlobal.prep_hora_video}</strong>`,
+      infoGlobal.ceremonia_hora&&`Ceremonia: <strong>${infoGlobal.ceremonia_hora}</strong>${infoGlobal.ceremonia_duracion?' ('+infoGlobal.ceremonia_duracion+')':''}`,
+      infoGlobal.coctel_hora&&`Cóctel: <strong>${infoGlobal.coctel_hora}</strong>`,
+      infoGlobal.recepcion_hora&&`${infoGlobal.recepcion_tipo||'Recepción'}: <strong>${infoGlobal.recepcion_hora}</strong>`,
+      infoGlobal.barra_hora&&`Barra libre: <strong>${infoGlobal.barra_hora}</strong>`,
+      infoGlobal.fin_boda&&`Fin de boda: <strong>${infoGlobal.fin_boda}</strong>`,
+      (infoGlobal.invitados_adultos||infoGlobal.invitados_ninos)&&`<strong>${infoGlobal.invitados_adultos||'—'} adultos${infoGlobal.invitados_ninos?' + '+infoGlobal.invitados_ninos+' niños':''}`,
     ].filter(Boolean)
     const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>Timing · ${trabajo?.titulo||''}</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -275,7 +276,7 @@ export default function Timing() {
 <div class="page">
 <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;padding-bottom:16px;border-bottom:2.5px solid #000499">
   <div><p style="font-size:18px;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:#000499">FERREIRO</p><p style="font-size:10px;font-style:italic;color:#9ca3af;font-family:Georgia,serif">capturing moments</p></div>
-  <div style="text-align:right"><p style="font-size:16px;font-weight:500">${trabajo?.titulo||''}</p><p style="font-size:12px;color:#6b7280;margin-top:2px;text-transform:capitalize">${fechaStr}</p>${trabajo?.lugar?`<p style="font-size:11px;color:#9ca3af">📍 ${trabajo.lugar}</p>`:''}</div>
+  <div style="text-align:right"><p style="font-size:16px;font-weight:500">${trabajo?.titulo||''}</p><p style="font-size:12px;color:#6b7280;margin-top:2px;text-transform:capitalize">${fechaStr}</p>${trabajo?.lugar?`<p style="font-size:11px;color:#9ca3af">${trabajo.lugar}</p>`:''}</div>
 </div>
 ${igArr.length?`<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px;padding:12px 14px;background:#f8f9ff;border-radius:8px;border:1px solid #e0e7ff">${igArr.map(f=>`<span style="font-size:11px;padding:3px 9px;background:white;border-radius:20px;border:1px solid #e5e7eb">${f}</span>`).join('')}</div>`:''}
 ${secsHtml}
@@ -326,9 +327,9 @@ ${secsHtml}
 
         {/* Tabs */}
         <div className="flex border-b border-cream-dark bg-white flex-shrink-0 px-2">
-          <TabBtn id="timeline" label="⏱ Timeline"/>
-          <TabBtn id="estilismo" label="👗 Estilismo"/>
-          <TabBtn id="directorio" label="📋 Directorio"/>
+          <TabBtn id="timeline" label="Timeline"/>
+          <TabBtn id="estilismo" label="Estilismo"/>
+          <TabBtn id="directorio" label="Directorio"/>
         </div>
 
         {/* ── TAB TIMELINE ── */}
@@ -344,7 +345,7 @@ ${secsHtml}
               </summary>
               <div className="px-4 pb-4 pt-1 bg-cream/30">
                 <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-3">
-                  {[{k:'prep_hora_foto',l:'📷 Fotógrafo',t:'time'},{k:'prep_hora_video',l:'🎬 Videógrafo',t:'time'},{k:'prep_salida',l:'🚗 Salen',t:'time'},{k:'ceremonia_hora',l:'💒 Ceremonia',t:'time'},{k:'coctel_hora',l:'🥂 Cóctel',t:'time'},{k:'recepcion_hora',l:'🍽 Recepción',t:'time'},{k:'barra_hora',l:'🎉 Barra libre',t:'time'},{k:'fin_boda',l:'🌙 Fin de boda',t:'time'},{k:'invitados_adultos',l:'👥 Adultos',t:'number'},{k:'invitados_ninos',l:'🧒 Niños',t:'number'},{k:'parking',l:'🅿 Parking',t:'text'},{k:'obs',l:'📝 Obs.',t:'text'}].map(f=>(
+                  {[{k:'prep_hora_foto',l:'Fotógrafo',t:'time'},{k:'prep_hora_video',l:'Videógrafo',t:'time'},{k:'prep_salida',l:'Salen a ceremonia',t:'time'},{k:'ceremonia_hora',l:'Inicio ceremonia',t:'time'},{k:'coctel_hora',l:'Cóctel',t:'time'},{k:'recepcion_hora',l:'Recepción',t:'time'},{k:'barra_hora',l:'Barra libre',t:'time'},{k:'fin_boda',l:'Fin de boda',t:'time'},{k:'invitados_adultos',l:'Adultos',t:'number'},{k:'invitados_ninos',l:'Niños',t:'number'},{k:'parking',l:'Parking',t:'text'},{k:'obs',l:'Observaciones',t:'text'}].map(f=>(
                     <div key={f.k}>
                       <label className="label text-[9.5px]">{f.l}</label>
                       <input type={f.t} value={infoGlobal[f.k]||''} onChange={e=>setIG(f.k,e.target.value)} className="input text-xs py-1.5"/>
@@ -385,7 +386,7 @@ ${secsHtml}
                           {sec.hora_inicio||'—'}{sec.hora_fin?' – '+sec.hora_fin:''}
                         </span>
                       )}
-                      <span className="text-[10px] text-ink-3 flex-shrink-0">{items.length}{claves>0?` · ⭐${claves}`:''}</span>
+                      <span className="text-[10px] text-ink-3 flex-shrink-0">{items.length}{claves>0?` · ★ ${claves}`:''}</span>
                       {isOpen?<ChevronUp size={13} className="text-ink-3 flex-shrink-0 ml-1"/>:<ChevronDown size={13} className="text-ink-3 flex-shrink-0 ml-1"/>}
                     </button>
                     {!vistaCliente&&(
@@ -403,19 +404,19 @@ ${secsHtml}
                       {!vistaCliente&&sec.tipo==='momentos'&&(
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-4 md:px-5 pt-3 pb-2">
                           <div>
-                            <label className="label text-[9.5px]">📍 Ubicación</label>
+                            <label className="label text-[9.5px]">Ubicación</label>
                             {gLoaded ? <PlacesInput value={sec.ubicacion||''} onChange={v=>updSec(sec.id,'ubicacion',v)} placeholder="Buscar lugar…" className="input text-xs py-1.5"/> : <input value={sec.ubicacion||''} onChange={e=>updSec(sec.id,'ubicacion',e.target.value)} className="input text-xs py-1.5" placeholder="Lugar"/>}
                           </div>
                           <div>
-                            <label className="label text-[9.5px]">📞 Contacto principal</label>
+                            <label className="label text-[9.5px]">Contacto principal</label>
                             <input value={sec.contacto_principal||''} onChange={e=>updSec(sec.id,'contacto_principal',e.target.value)} className="input text-xs py-1.5" placeholder="Nombre / teléfono"/>
                           </div>
                           <div>
-                            <label className="label text-[9.5px]">⏰ Hora inicio</label>
+                            <label className="label text-[9.5px]">Hora inicio</label>
                             <input type="time" value={sec.hora_inicio||''} onChange={e=>updSec(sec.id,'hora_inicio',e.target.value)} className="input text-xs py-1.5"/>
                           </div>
                           <div>
-                            <label className="label text-[9.5px]">⏰ Hora fin · 🚗 Traslado (min)</label>
+                            <label className="label text-[9.5px]">Hora fin · Traslado (min)</label>
                             <div className="flex gap-1.5">
                               <input type="time" value={sec.hora_fin||''} onChange={e=>updSec(sec.id,'hora_fin',e.target.value)} className="input text-xs py-1.5 flex-1"/>
                               <input type="number" value={sec.traslado_min||''} onChange={e=>updSec(sec.id,'traslado_min',e.target.value)} className="input text-xs py-1.5 w-16" placeholder="min"/>
@@ -435,8 +436,8 @@ ${secsHtml}
 
                       {/* Traslado badge */}
                       {sec.traslado_min&&(
-                        <div className="mx-5 mb-2 px-3 py-1.5 rounded-lg text-xs font-medium" style={{background:'#fef9c3',color:'#a16207',border:'1px solid #fde68a'}}>
-                          🚗 Traslado hacia esta sección: {sec.traslado_min} min
+                        <div className="mx-5 mb-2 px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5" style={{background:'#fef9c3',color:'#a16207',border:'1px solid #fde68a'}}><Car size={11}/>
+                          Traslado: {sec.traslado_min} min
                         </div>
                       )}
 
@@ -497,11 +498,12 @@ ${secsHtml}
                                           <div className="flex items-center gap-1 flex-shrink-0 flex-wrap">
                                             {(item.badges||[]).map(bid=>{
                                               const b=getBadge(bid); if(!b) return null
-                                              return (
+                                              const BIcon = b.icon
+                                          return (
                                                 <span key={bid}
                                                   onClick={()=>!vistaCliente&&toggleBadge(sec.id,item._id,bid)}
-                                                  className={`text-[9.5px] px-1.5 py-0.5 rounded-full border font-medium leading-none cursor-pointer select-none ${b.cls}`}>
-                                                  {b.label}
+                                                  className={`flex items-center gap-0.5 text-[9px] px-1.5 py-0.5 rounded-full border font-medium leading-none cursor-pointer select-none ${b.cls}`}>
+                                                  <BIcon size={9}/>{b.label}
                                                 </span>
                                               )
                                             })}
@@ -510,8 +512,8 @@ ${secsHtml}
                                               <div className="absolute z-50 bg-white border border-brand/15 rounded-xl shadow-2xl p-2 grid grid-cols-2 gap-1" style={{top:'100%',left:0,minWidth:'220px'}}>
                                                 {BADGE_LIST.map(b=>(
                                                   <button key={b.id} onClick={()=>toggleBadge(sec.id,item._id,b.id)}
-                                                    className={`text-left text-xs px-2.5 py-1.5 rounded-lg border transition-all ${(item.badges||[]).includes(b.id)?b.cls+' font-medium':'bg-cream hover:bg-brand/[.05] text-ink-2 border-transparent'}`}>
-                                                    {b.label}
+                                                    className={`text-left text-xs px-2.5 py-1.5 rounded-lg border transition-all flex items-center gap-1.5 ${(item.badges||[]).includes(b.id)?b.cls+' font-medium':'bg-cream hover:bg-brand/[.05] text-ink-2 border-transparent'}`}>
+                                                    {(() => { const I = b.icon; return <I size={11}/> })()}{b.label}
                                                   </button>
                                                 ))}
                                                 <button onClick={()=>setShowBadgePicker(null)} className="col-span-2 text-xs text-ink-3 hover:text-ink pt-1 border-t border-cream-dark mt-1">Cerrar</button>
@@ -573,16 +575,16 @@ ${secsHtml}
                                                   className="input text-xs resize-none py-1.5 w-full" rows={2} placeholder="Detalles para la pareja…"/>
                                               </div>
                                               <div>
-                                                <label className="label text-[9.5px]">🔒 Notas internas (solo tú)</label>
+                                                <label className="label text-[9.5px]">Notas internas (solo tú)</label>
                                                 <textarea value={item.notas_internas||''} onChange={e=>updItem(sec.id,item._id,'notas_internas',e.target.value)}
                                                   className="input text-xs resize-none py-1.5 w-full bg-amber-50 border-amber-200" rows={2} placeholder="Logística, recordatorios…"/>
                                               </div>
                                               <div>
-                                                <label className="label text-[9.5px]">📞 Contacto</label>
+                                                <label className="label text-[9.5px]">Contacto</label>
                                                 <input value={item.contacto||''} onChange={e=>updItem(sec.id,item._id,'contacto',e.target.value)} className="input text-xs py-1.5" placeholder="Nombre / teléfono"/>
                                               </div>
                                               <div>
-                                                <label className="label text-[9.5px]">📍 Ubicación específica</label>
+                                                <label className="label text-[9.5px]">Ubicación específica</label>
                                                 {gLoaded
                                                   ? <PlacesInput value={item.ubicacion||''} onChange={v=>updItem(sec.id,item._id,'ubicacion',v)} placeholder="Buscar dirección…" className="input text-xs py-1.5"/>
                                                   : <input value={item.ubicacion||''} onChange={e=>updItem(sec.id,item._id,'ubicacion',e.target.value)} className="input text-xs py-1.5" placeholder="Dirección"/>}
@@ -627,7 +629,7 @@ ${secsHtml}
                                         <button key={i} onClick={()=>addItem(sec.id,{...r,badges:r.badges||[]})}
                                           className="w-full text-left px-3.5 py-2.5 text-xs hover:bg-brand/[.05] flex items-center gap-2">
                                           <div className="flex gap-1 flex-wrap">
-                                            {(r.badges||[]).map(bid=>{ const b=getBadge(bid); return b?<span key={bid} className={`text-[8.5px] px-1.5 py-0.5 rounded-full border ${b.cls}`}>{b.label}</span>:null })}
+                                            {(r.badges||[]).map(bid=>{ const b=getBadge(bid); if(!b) return null; const I=b.icon; return <span key={bid} className={`flex items-center gap-0.5 text-[8.5px] px-1.5 py-0.5 rounded-full border ${b.cls}`}><I size={8}/>{b.label}</span> })}
                                           </div>
                                           <span className="text-ink flex-1">{r.titulo}</span>
                                           {r.hora&&<span className="text-ink-3 font-mono flex-shrink-0">{r.hora}</span>}
@@ -673,8 +675,8 @@ ${secsHtml}
                                   <input value={prov.nombre||''} onChange={e=>updItem(sec.id,prov._id,'nombre',e.target.value)} className="input text-xs py-1.5" placeholder="Empresa / nombre"/>
                                   <input value={prov.tipo||''} onChange={e=>updItem(sec.id,prov._id,'tipo',e.target.value)} className="input text-xs py-1.5" placeholder="Tipo (DJ, Vídeo…)"/>
                                   <input value={prov.contacto||''} onChange={e=>updItem(sec.id,prov._id,'contacto',e.target.value)} className="input text-xs py-1.5" placeholder="Contacto"/>
-                                  <input value={prov.telefono||''} onChange={e=>updItem(sec.id,prov._id,'telefono',e.target.value)} className="input text-xs py-1.5" placeholder="📞 Teléfono"/>
-                                  <input value={prov.instagram||''} onChange={e=>updItem(sec.id,prov._id,'instagram',e.target.value)} className="input text-xs py-1.5" placeholder="📸 Instagram"/>
+                                  <input value={prov.telefono||''} onChange={e=>updItem(sec.id,prov._id,'telefono',e.target.value)} className="input text-xs py-1.5" placeholder="Teléfono"/>
+                                  <input value={prov.instagram||''} onChange={e=>updItem(sec.id,prov._id,'instagram',e.target.value)} className="input text-xs py-1.5" placeholder="Instagram"/>
                                   <input value={prov.notas||''} onChange={e=>updItem(sec.id,prov._id,'notas',e.target.value)} className="input text-xs py-1.5" placeholder="Notas"/>
                                   <button onClick={()=>delItem(sec.id,prov._id)} className="col-span-3 flex items-center justify-end gap-1 text-[10px] text-red-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-opacity"><Trash2 size={10}/> Eliminar</button>
                                 </div>
@@ -803,17 +805,17 @@ ${secsHtml}
           {/* Horas clave info global */}
           <div className="space-y-0.5 mb-2">
             {[
-              {h:infoGlobal.prep_hora_foto,t:'📷 Fotógrafo'},
-              {h:infoGlobal.prep_hora_video,t:'🎬 Videógrafo'},
-              {h:infoGlobal.ceremonia_hora,t:'💒 Ceremonia'},
-              {h:infoGlobal.coctel_hora,t:'🥂 Cóctel'},
-              {h:infoGlobal.recepcion_hora,t:`🍽 ${infoGlobal.recepcion_tipo||'Recepción'}`},
-              {h:infoGlobal.barra_hora,t:'🎉 Barra libre'},
-              {h:infoGlobal.fin_boda,t:'🌙 Fin'},
+              {h:infoGlobal.prep_hora_foto,t:'Fotógrafo'},
+              {h:infoGlobal.prep_hora_video,t:'Videógrafo'},
+              {h:infoGlobal.ceremonia_hora,t:'Ceremonia'},
+              {h:infoGlobal.coctel_hora,t:'Cóctel'},
+              {h:infoGlobal.recepcion_hora,t:infoGlobal.recepcion_tipo||'Recepción'},
+              {h:infoGlobal.barra_hora,t:'Barra libre'},
+              {h:infoGlobal.fin_boda,t:'Fin'},
             ].filter(x=>x.h).map((x,i)=>(
               <div key={i} className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-medium text-ink-3 w-11 text-right flex-shrink-0">{x.h}</span>
-                <div className="flex-1 text-[10px] px-2 py-1 rounded bg-brand/[.06] text-brand font-medium truncate">{x.t}</div>
+                <div className="flex-1 text-[10px] px-2 py-1 rounded bg-cream-dark text-ink-2 font-medium truncate">{x.t}</div>
               </div>
             ))}
           </div>
@@ -829,7 +831,7 @@ ${secsHtml}
                   <span className="text-[9.5px] font-mono text-ink-3 w-11 text-right flex-shrink-0 pt-1">{it.hora}</span>
                   <div className="flex-1 px-2 py-1.5 rounded-lg border text-[9.5px] leading-snug"
                     style={{background:c2.bg,borderColor:c2.border,borderLeftWidth:isClave?'3px':'1px',borderLeftColor:isClave?c2.dot:c2.border}}>
-                    {badgesRow.map(bid=>{ const b=getBadge(bid); return b?<span key={bid} className={`text-[8px] px-1 rounded mr-0.5 border ${b.cls}`}>{b.label}</span>:null })}
+                    {badgesRow.map(bid=>{ const b=getBadge(bid); if(!b) return null; const I=b.icon; return <span key={bid} className={`inline-flex items-center gap-0.5 text-[8px] px-1 py-0.5 rounded mr-0.5 border ${b.cls}`}><I size={7}/>{b.label}</span> })}
                     <span className={`${isClave?'font-semibold':''}`} style={{color:isClave?c2.head:'#1f2937'}}>{it.titulo}</span>
                     {it.ubicacion&&<p className="text-[8.5px] opacity-60 mt-0.5 flex items-center gap-0.5"><MapPin size={8}/>{it.ubicacion.split(',')[0]}</p>}
                   </div>
